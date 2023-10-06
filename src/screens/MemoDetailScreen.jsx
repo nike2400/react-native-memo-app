@@ -26,7 +26,6 @@ export default MemoDetailScreen = () => {
         </Text>
       </ScrollView>
 
-
       {/* CircleButton */}
       <CircleButton iconType="-" customStyle={{ top: 160, buttom: 'auto' }}></CircleButton>
     </View>
