@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, TextInput } from 'react-native';
+import { View, StyleSheet, Text, TextInput, Alert } from 'react-native';
 import AppBar from '../components/AppBar';
 import Button from '../components/Button';
 
@@ -10,7 +10,7 @@ export default LogInScreen = () => {
         <Text style={styles.title}>Login</Text>
         <TextInput style={styles.input} placeholder='Email'></TextInput>
         <TextInput style={styles.input} placeholder='Password'></TextInput>
-        <Button label="Submit"></Button>
+        <Button label="Submit" onPress={() => { Alert.alert('Alert'); }}></Button>
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>Not registered?</Text>
           <Text style={styles.footerLink}>Sign up here!</Text>

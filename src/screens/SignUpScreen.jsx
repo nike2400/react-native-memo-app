@@ -10,7 +10,7 @@ export default SignUpScreen = () => {
         <Text style={styles.title}>Sign Up</Text>
         <TextInput style={styles.input} placeholder='Email'></TextInput>
         <TextInput style={styles.input} placeholder='Password'></TextInput>
-        <Button label="Submit"></Button>
+        <Button label="Submit" onPress={() => { Alert.alert('Alert'); }}></Button>
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>Already registered?</Text>
           <Text style={styles.footerLink}>Log in here!</Text>

@@ -9,8 +9,8 @@ export default function App() {
   return (
     // <MemoListScreen></MemoListScreen>
     // <MemoDetailScreen></MemoDetailScreen>
-    // <MemoEditScreen></MemoEditScreen>
+    <MemoEditScreen></MemoEditScreen>
     // <LogInScreen></LogInScreen>
-    <SignUpScreen></SignUpScreen>
+    // <SignUpScreen></SignUpScreen>
   );
 }

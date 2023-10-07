@@ -1,11 +1,11 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { Text, StyleSheet, TouchableOpacity } from 'react-native';
 
 export default CircleButton = (props) => {
-  const { iconType, customStyle } = props;
+  const { iconType, customStyle, onPress } = props;
   return (
-    <View style={[styles.circleButton, customStyle]}>
+    <TouchableOpacity style={[styles.circleButton, customStyle]} onPress={onPress}>
       <Text style={styles.circleButtonLebel}>{iconType}</Text>
-    </View>
+    </TouchableOpacity>
   );
 };
 
