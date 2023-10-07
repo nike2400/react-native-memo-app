@@ -2,7 +2,6 @@ import { View, Text, StyleSheet, ScrollView } from 'react-native';
 import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButton';
 
-
 export default MemoDetailScreen = () => {
   return (
     <View style={styles.container}>
