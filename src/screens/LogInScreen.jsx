@@ -1,16 +1,15 @@
 import { View, StyleSheet, Text, TextInput, Alert } from 'react-native';
-import AppBar from '../components/AppBar';
 import Button from '../components/Button';
 
-export default LogInScreen = () => {
+export default LogInScreen = (props) => {
+  const { navigation } = props;
   return (
     <View style={styles.container}>
-      <AppBar></AppBar>
       <View style={styles.inner}>
         <Text style={styles.title}>Login</Text>
         <TextInput style={styles.input} placeholder='Email'></TextInput>
         <TextInput style={styles.input} placeholder='Password'></TextInput>
-        <Button label="Submit" onPress={() => { Alert.alert('Alert'); }}></Button>
+        <Button label="Submit" onPress={() => { navigation.navigate('MemoList'); }}></Button>
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>Not registered?</Text>
           <Text style={styles.footerLink}>Sign up here!</Text>
