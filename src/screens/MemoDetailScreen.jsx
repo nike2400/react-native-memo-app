@@ -1,11 +1,11 @@
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
-import AppBar from '../components/AppBar';
 import CircleButton from '../components/CircleButton';
 
-export default MemoDetailScreen = () => {
+export default MemoDetailScreen = (props) => {
+  const { navigation } = props;
+
   return (
     <View style={styles.container}>
-      <AppBar></AppBar>
       <View style={styles.memoHeader}>
         <Text style={styles.memoTitle}>List Name</Text>
         <Text style={styles.memoDate}>Date</Text>
@@ -26,7 +26,10 @@ export default MemoDetailScreen = () => {
       </ScrollView>
 
       {/* CircleButton */}
-      <CircleButton iconType="-" customStyle={{ top: 160, buttom: 'auto' }}></CircleButton>
+      <CircleButton
+        iconType="-"
+        customStyle={{ top: 60, buttom: 'auto' }}
+        onPress={() => { navigation.navigate('MemoEdit') }}></CircleButton>
     </View>
   );
 };

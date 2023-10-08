@@ -1,27 +1,20 @@
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+// 子コンポーネントでNavigationを使いたい場合
+import { useNavigation } from '@react-navigation/native';
 
 export default MemoList = () => {
+  const navigation = useNavigation();
   return (
     <View>
-      <View style={styles.memoListItem}>
+      <TouchableOpacity style={styles.memoListItem} onPress={() => { navigation.navigate('MemoDetail'); }}>
         <View>
           <Text style={styles.memoListItemTitle} >List Name</Text>
           <Text style={styles.memoListItemDate}>Date</Text>
         </View>
-        <View>
+        <TouchableOpacity style={styles.memoDelete} onPress={() => { Alert.alert('Are you sure?'); }}>
           <Text>Close</Text>
-        </View>
-      </View>
-
-      <View style={styles.memoListItem}>
-        <View>
-          <Text style={styles.memoListItemTitle} >List Name</Text>
-          <Text style={styles.memoListItemDate}>Date</Text>
-        </View>
-        <View>
-          <Text>Close</Text>
-        </View>
-      </View>
+        </TouchableOpacity>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -45,5 +38,8 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
     color: '#848484',
+  },
+  memoDelete: {
+    padding: 8,
   },
 });
