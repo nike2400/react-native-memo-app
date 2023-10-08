@@ -1,4 +1,4 @@
-import { View, StyleSheet, Text, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
 import Button from '../components/Button';
 
 export default LogInScreen = (props) => {
@@ -9,10 +9,22 @@ export default LogInScreen = (props) => {
         <Text style={styles.title}>Login</Text>
         <TextInput style={styles.input} placeholder='Email'></TextInput>
         <TextInput style={styles.input} placeholder='Password'></TextInput>
-        <Button label="Submit" onPress={() => { navigation.navigate('MemoList'); }}></Button>
+        <Button label="Submit" onPress={() => {
+          navigation.reset({
+            index: 0,
+            routes: [{ name: 'MemoList' }],
+          });
+        }}></Button>
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>Not registered?</Text>
-          <Text style={styles.footerLink}>Sign up here!</Text>
+          <TouchableOpacity onPress={() => {
+            navigation.reset({
+              index: 0,
+              routes: [{ name: 'SignUp' }],
+            });
+          }}>
+            <Text style={styles.footerLink}>Sign up here!</Text>
+          </TouchableOpacity>
         </View>
       </View>
     </View>

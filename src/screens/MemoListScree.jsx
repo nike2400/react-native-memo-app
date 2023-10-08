@@ -10,7 +10,7 @@ export default function MemoListScreen(props) {
       {/* Memo List */}
       <MemoList></MemoList>
       {/* Floating Bottun */}
-      <CircleButton iconType="+" onPress={() => { navigation.navigate('MemoEdit') }}></CircleButton>
+      <CircleButton iconType="+" onPress={() => { navigation.navigate('MemoCreate') }}></CircleButton>
     </View>
   );
 }
