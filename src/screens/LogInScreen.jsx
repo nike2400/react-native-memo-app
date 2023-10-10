@@ -1,20 +1,52 @@
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Button from '../components/Button';
+import firebase from '../services/firebase';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 export default LogInScreen = (props) => {
   const { navigation } = props;
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const auth = getAuth(firebase);
+
+  // 画面が表示された時だけ筆耕されるよう[]を指定
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      }
+    });
+
+    // 画面がアンマウントされる際にreturnが実行される
+    return unsubscribe;
+  }), [];
+
+  const handlePress = () => {
+    signInWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const { user } = userCredential;
+        console.log(user.uid);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      }).catch((error) => {
+        Alert.alert("入力値が不正です");
+        console.log(error.code, error.message);
+      });
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.inner}>
         <Text style={styles.title}>Login</Text>
-        <TextInput style={styles.input} placeholder='Email'></TextInput>
-        <TextInput style={styles.input} placeholder='Password'></TextInput>
-        <Button label="Submit" onPress={() => {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'MemoList' }],
-          });
-        }}></Button>
+        <TextInput textContentType='emailAddress' keyboardType='email-address' autoCapitalize='none' style={styles.input} placeholder='Email' value={email} onChangeText={(value) => { setEmail(value) }}></TextInput>
+        <TextInput textContentType='password' secureTextEntry autoCapitalize='none' style={styles.input} placeholder='Password' value={password} onChangeText={(value) => { setPassword(value) }}></TextInput>
+        <Button label="Submit" onPress={handlePress}></Button>
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>Not registered?</Text>
           <TouchableOpacity onPress={() => {

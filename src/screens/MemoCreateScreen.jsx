@@ -1,17 +1,32 @@
-import { View, StyleSheet, TextInput, KeyboardAvoidingView, Alert } from 'react-native';
-import AppBar from '../components/AppBar';
+import { View, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native';
 import CircleButton from '../components/CircleButton';
+import firebase from '../services/firebase';
+import { getFirestore, collection, addDoc, } from 'firebase/firestore'
 
 export default MemoCreateScreen = (props) => {
   const { navigation } = props;
+  const db = getFirestore(firebase);
+
+  const handlePress = () => {
+    const ref = collection(db, 'memos');
+    addDoc(ref, {
+      bodyText: 'hello',
+    }).then((docRef) => {
+      console.log('Created', docRef.id);
+      navigation.goBack();
+    }).catch((error) => {
+      console.log(error.code, error.message);
+    });
+  }
+
   return (
     <KeyboardAvoidingView style={styles.container} behavior='height'>
       <View style={styles.inputContainer}>
         <TextInput placeholder='Enter your task'
           multiline style={styles.input}></TextInput>
       </View>
-      <CircleButton iconType="✔️" onPress={() => { navigation.goBack(); }}></CircleButton>
-    </KeyboardAvoidingView>
+      <CircleButton iconType="✔️" onPress={handlePress}></CircleButton>
+    </KeyboardAvoidingView >
   );
 };
 

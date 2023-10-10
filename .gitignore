@@ -36,3 +36,4 @@ yarn-error.*
 
 # Additonal
 memo.txt
+env.js
