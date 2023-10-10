@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Button from '../components/Button';
 import firebase from '../services/firebase';
@@ -10,8 +10,23 @@ export default LogInScreen = (props) => {
   const [password, setPassword] = useState('');
   const auth = getAuth(firebase);
 
-  const handlePress = async () => {
-    await signInWithEmailAndPassword(auth, email, password)
+  // 画面が表示された時だけ筆耕されるよう[]を指定
+  useEffect(() => {
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'MemoList' }],
+        });
+      }
+    });
+
+    // 画面がアンマウントされる際にreturnが実行される
+    return unsubscribe;
+  }), [];
+
+  const handlePress = () => {
+    signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const { user } = userCredential;
         console.log(user.uid);

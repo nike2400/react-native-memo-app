@@ -10,8 +10,8 @@ export default SignUpScreen = (props) => {
   const [password, setPassword] = useState('');
   const auth = getAuth(firebase);
 
-  const handlePress = async () => {
-    await createUserWithEmailAndPassword(auth, email, password)
+  const handlePress = () => {
+    createUserWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const { user } = userCredential;
         console.log(user.uid);

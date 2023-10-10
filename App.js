@@ -1,4 +1,4 @@
-import MemoListScreen from './src/screens/MemoListScree';
+import MemoListScreen from './src/screens/MemoListScreen';
 import MemoDetailScreen from './src/screens/MemoDetailScreen';
 import MemoEditScreen from './src/screens/MemoEditScreen';
 import LogInScreen from './src/screens/LogInScreen';
