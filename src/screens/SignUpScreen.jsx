@@ -1,11 +1,29 @@
 import React, { useState } from 'react';
-import { View, StyleSheet, Text, TextInput, TouchableOpacity } from 'react-native';
+import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'react-native';
 import Button from '../components/Button';
+import firebase from '../services/firebase';
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
 
 export default SignUpScreen = (props) => {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const auth = getAuth(firebase);
+
+  const handlePress = async () => {
+    await createUserWithEmailAndPassword(auth, email, password)
+      .then((userCredential) => {
+        const { user } = userCredential;
+        console.log(user.uid);
+        navigation.reset({
+          index: 0,
+          routes: [{ name: 'Login' }],
+        });
+      }).catch((error) => {
+        Alert.alert("入力値が不正です");
+        console.log(error.code, error.message);
+      });
+  };
 
   return (
     <View style={styles.container}>
@@ -13,12 +31,7 @@ export default SignUpScreen = (props) => {
         <Text style={styles.title}>Sign Up</Text>
         <TextInput textContentType='emailAddress' keyboardType='email-address' autoCapitalize='none' style={styles.input} placeholder='Email' value={email} onChangeText={(value) => { setEmail(value); }}></TextInput>
         <TextInput textContentType='password' secureTextEntry autoCapitalize='none' style={styles.input} placeholder='Password' value={password} onChangeText={(value) => { setPassword(value); }}></TextInput>
-        <Button label="Submit" onPress={() => {
-          navigation.reset({
-            index: 0,
-            routes: [{ name: 'MemoList' }],
-          });
-        }}></Button>
+        <Button label="Submit" onPress={handlePress}></Button>
         <View style={styles.footerContainer}>
           <Text style={styles.footerText}>Already registered?</Text>
           <TouchableOpacity onPress={() => {
