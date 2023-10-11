@@ -2,15 +2,20 @@ import { View, StyleSheet, TextInput, KeyboardAvoidingView } from 'react-native'
 import CircleButton from '../components/CircleButton';
 import firebase from '../services/firebase';
 import { getFirestore, collection, addDoc, } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth';
+import { useState } from 'react';
 
 export default MemoCreateScreen = (props) => {
   const { navigation } = props;
-  const db = getFirestore(firebase);
+  const [memoText, setMemoText] = useState('');
 
-  const handlePress = () => {
-    const ref = collection(db, 'memos');
-    addDoc(ref, {
-      bodyText: 'hello',
+  const db = getFirestore(firebase);
+  const { currentUser } = getAuth(firebase);
+  const handlePress = async () => {
+    const ref = collection(db, `users/${currentUser.uid}/memos`);
+    await addDoc(ref, {
+      bodyText: memoText,
+      updatedAt: new Date(),
     }).then((docRef) => {
       console.log('Created', docRef.id);
       navigation.goBack();
@@ -22,11 +27,13 @@ export default MemoCreateScreen = (props) => {
   return (
     <KeyboardAvoidingView style={styles.container} behavior='height'>
       <View style={styles.inputContainer}>
-        <TextInput placeholder='Enter your task'
-          multiline style={styles.input}></TextInput>
+        <TextInput placeholder='Enter your task' value={memoText}
+          autoFocus
+          multiline style={styles.input}
+          onChangeText={(value) => { setMemoText(value) }}></TextInput>
       </View>
       <CircleButton iconType="✔️" onPress={handlePress}></CircleButton>
-    </KeyboardAvoidingView >
+    </KeyboardAvoidingView>
   );
 };
 

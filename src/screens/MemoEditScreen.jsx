@@ -10,7 +10,7 @@ export default MemoEditScreen = (props) => {
           multiline style={styles.input}></TextInput>
       </View>
       <CircleButton iconType="✔️" onPress={() => { navigation.goBack(); }}></CircleButton>
-    </KeyboardAvoidingView >
+    </KeyboardAvoidingView>
   );
 };
 
