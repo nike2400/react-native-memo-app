@@ -1,25 +1,36 @@
-import { View, Text, StyleSheet, TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
 // 子コンポーネントでNavigationを使いたい場合
 import { useNavigation } from '@react-navigation/native';
 
-export default MemoList = () => {
+export default MemoList = (props) => {
   const navigation = useNavigation();
-  return (
-    <View>
+  const { memos } = props;
+  const renderItem = ({ item }) => {
+    return (
       <TouchableOpacity style={styles.memoListItem} onPress={() => { navigation.navigate('MemoDetail'); }}>
         <View>
-          <Text style={styles.memoListItemTitle} >List Name</Text>
-          <Text style={styles.memoListItemDate}>Date</Text>
+          <Text numberOfLines={1} style={styles.memoListItemTitle}>{item.bodyText}</Text>
+          <Text style={styles.memoListItemDate}>{item.updatedAt}</Text>
         </View>
         <TouchableOpacity style={styles.memoDelete} onPress={() => { Alert.alert('Are you sure?'); }}>
           <Text>Close</Text>
         </TouchableOpacity>
       </TouchableOpacity>
+    );
+  };
+
+
+  return (
+    <View style={styles.container}>
+      <FlatList data={memos} renderItem={renderItem} keyExtractor={(item) => item.id} />
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+  },
   memoListItem: {
     backgroundColor: '#ffffff',
     flexDirection: 'row',
