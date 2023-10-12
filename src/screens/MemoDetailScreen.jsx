@@ -1,28 +1,46 @@
-import { View, Text, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, Alert } from 'react-native';
 import CircleButton from '../components/CircleButton';
+import { useEffect, useState } from 'react';
+import { getAuth } from 'firebase/auth';
+import firebase from '../services/firebase';
+import { doc, getFirestore, onSnapshot, query } from 'firebase/firestore';
 
 export default MemoDetailScreen = (props) => {
-  const { navigation } = props;
+  const { navigation, route } = props;
+  const { id } = route.params;
+  const [memo, setMemo] = useState(null);
+
+  // MmeoDetail 取得
+  useEffect(() => {
+    const { currentUser } = getAuth(firebase);
+    let unSubscribe = () => { };
+    if (currentUser) {
+      const db = getFirestore(firebase);
+      const q = query(doc(db, `users/${currentUser.uid}/memos`, id));
+      unSubscribe = onSnapshot(q, (doc) => {
+        const data = doc.data();
+        setMemo({
+          id: doc.id,
+          bodyText: data.bodyText,
+          updatedAt: data.updatedAt.toDate().toString(),
+        });
+      }, (error) => {
+        Alert.alert("データの読み込みに失敗しました。")
+      });
+    }
+    return unSubscribe;
+  }, []);
 
   return (
     <View style={styles.container}>
       <View style={styles.memoHeader}>
-        <Text style={styles.memoTitle}>List Name</Text>
-        <Text style={styles.memoDate}>Date</Text>
+        <Text numberOfLines={1} style={styles.memoTitle}>{memo && memo.bodyText}</Text>
+        <Text style={styles.memoDate}>{memo && memo.updatedAt}</Text>
       </View>
 
       {/* Content */}
       <ScrollView style={styles.memoBody}>
-        <Text style={styles.memoText}>
-          aaaaaaaaaaaaaaaaaa
-          aaaaaaaddd
-          ddfggdgdgdgfgf
-
-          fgsfgsdfgesfgfg
-
-          eeeeeee
-          dfgsfgsfgsfgegrgr
-        </Text>
+        <Text style={styles.memoText}>{memo && memo.bodyText}</Text>
       </ScrollView>
 
       {/* CircleButton */}
