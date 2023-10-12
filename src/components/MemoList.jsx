@@ -7,7 +7,7 @@ export default MemoList = (props) => {
   const { memos } = props;
   const renderItem = ({ item }) => {
     return (
-      <TouchableOpacity style={styles.memoListItem} onPress={() => { navigation.navigate('MemoDetail'); }}>
+      <TouchableOpacity style={styles.memoListItem} onPress={() => { navigation.navigate('MemoDetail', { id: item.id }); }}>
         <View>
           <Text numberOfLines={1} style={styles.memoListItemTitle}>{item.bodyText}</Text>
           <Text style={styles.memoListItemDate}>{item.updatedAt}</Text>
