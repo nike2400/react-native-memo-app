@@ -1,6 +1,31 @@
 import { View, Text, StyleSheet, TouchableOpacity, Alert, FlatList } from 'react-native';
 // 子コンポーネントでNavigationを使いたい場合
 import { useNavigation } from '@react-navigation/native';
+import { getAuth } from 'firebase/auth';
+import { getFirestore, doc, deleteDoc } from 'firebase/firestore';
+import firebase from '../services/firebase';
+
+const deleteMemo = (id) => {
+  const { currentUser } = getAuth(firebase);
+  if (currentUser) {
+    const db = getFirestore(firebase);
+    const ref = doc(db, `users/${currentUser.uid}/memos`, id);
+    Alert.alert('Dlete Memo', 'Are you sure?', [
+      {
+        text: 'No',
+        onPress: () => { },
+      },
+      {
+        text: 'Yes',
+        style: 'destructive',
+        onPress: () => {
+          deleteDoc(ref)
+            .catch(() => { Alert.alert('削除に失敗しました') });
+        },
+      },
+    ]);
+  }
+}
 
 export default MemoList = (props) => {
   const navigation = useNavigation();
@@ -8,11 +33,11 @@ export default MemoList = (props) => {
   const renderItem = ({ item }) => {
     return (
       <TouchableOpacity style={styles.memoListItem} onPress={() => { navigation.navigate('MemoDetail', { id: item.id }); }}>
-        <View>
+        <View style={styles.memoInner}>
           <Text numberOfLines={1} style={styles.memoListItemTitle}>{item.bodyText}</Text>
           <Text style={styles.memoListItemDate}>{item.updatedAt}</Text>
         </View>
-        <TouchableOpacity style={styles.memoDelete} onPress={() => { Alert.alert('Are you sure?'); }}>
+        <TouchableOpacity style={styles.memoDelete} onPress={() => { deleteMemo(item.id) }}>
           <Text>Close</Text>
         </TouchableOpacity>
       </TouchableOpacity>
@@ -30,6 +55,9 @@ export default MemoList = (props) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  memoInner: {
+    flex: 1
   },
   memoListItem: {
     backgroundColor: '#ffffff',

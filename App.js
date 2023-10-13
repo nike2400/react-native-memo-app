@@ -6,8 +6,12 @@ import SignUpScreen from './src/screens/SignUpScreen';
 import MemoCreateScreen from './src/screens/MemoCreateScreen';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { LogBox } from 'react-native';
 
 const Stack = createNativeStackNavigator();
+
+// 不要な警告を非表示
+LogBox.ignoreLogs(['Setting a timer']);
 
 export default function App() {
   return (

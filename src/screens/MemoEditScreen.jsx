@@ -56,6 +56,9 @@ const styles = StyleSheet.create({
   input: {
     flex: 1,
     // multilineの挙動調整
+    paddingTop: 32,
+    paddingBottom: 32,
+    paddingHorizontal: 27,
     textAlignVertical: 'top',
     fontSize: 16,
     lineHeight: 24
