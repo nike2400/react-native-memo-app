@@ -1,9 +1,9 @@
 import { StyleSheet, Text, TouchableOpacity } from 'react-native';
 
-export default SubmitButton = (props) => {
-  const { label, onPress } = props
+export default Button = (props) => {
+  const { label, onPress, customStyle } = props;
   return (
-    <TouchableOpacity style={styles.buttonContainer} onPress={onPress}>
+    <TouchableOpacity style={[styles.buttonContainer, customStyle]} onPress={onPress}>
       <Text style={styles.buttonLabel}>{label}</Text>
     </TouchableOpacity>
   );
