@@ -40,7 +40,9 @@ export default MemoDetailScreen = (props) => {
 
       {/* Content */}
       <ScrollView style={styles.memoBody}>
-        <Text style={styles.memoText}>{memo && memo.bodyText}</Text>
+        <View>
+          <Text style={styles.memoText}>{memo && memo.bodyText}</Text>
+        </View>
       </ScrollView>
 
       {/* CircleButton */}
@@ -75,8 +77,9 @@ const styles = StyleSheet.create({
     fontSize: 12,
     lineHeight: 16,
   },
-  memoBody: {
-    paddingVertical: 32,
+  memoBodyInner: {
+    paddingTop: 32,
+    paddingBottom: 80,
     paddingHorizontal: 27,
   },
   memoText: {
