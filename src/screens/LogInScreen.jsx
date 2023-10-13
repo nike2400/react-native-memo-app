@@ -3,11 +3,13 @@ import { View, StyleSheet, Text, TextInput, TouchableOpacity, Alert } from 'reac
 import Button from '../components/Button';
 import firebase from '../services/firebase';
 import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import Loading from '../components/Loading';
 
 export default LogInScreen = (props) => {
   const { navigation } = props;
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [isLoading, setLoading] = useState(true);
   const auth = getAuth(firebase);
 
   // 画面が表示された時だけ筆耕されるよう[]を指定
@@ -18,6 +20,8 @@ export default LogInScreen = (props) => {
           index: 0,
           routes: [{ name: 'MemoList' }],
         });
+      } else {
+        setLoading(false);
       }
     });
 
@@ -26,6 +30,7 @@ export default LogInScreen = (props) => {
   }), [];
 
   const handlePress = () => {
+    setLoading(true);
     signInWithEmailAndPassword(auth, email, password)
       .then((userCredential) => {
         const { user } = userCredential;
@@ -37,11 +42,14 @@ export default LogInScreen = (props) => {
       }).catch((error) => {
         Alert.alert("入力値が不正です");
         console.log(error.code, error.message);
+      }).finally(() => {
+        setLoading(false);
       });
   };
 
   return (
     <View style={styles.container}>
+      <Loading isLoading={isLoading}></Loading>
       <View style={styles.inner}>
         <Text style={styles.title}>Login</Text>
         <TextInput textContentType='emailAddress' keyboardType='email-address' autoCapitalize='none' style={styles.input} placeholder='Email' value={email} onChangeText={(value) => { setEmail(value) }}></TextInput>
